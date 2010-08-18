@@ -147,10 +147,10 @@ AC_PATH_XTRA
 
 if test x"$have_x" = xyes; then
 	# in Debian, the freetype headers are in a strange place
-	if test -d "/usr/include/freetype2"; then
-		CPPFLAGS="$CPPFLAGS -I/usr/include/freetype2"
-		CPFLAGS="$CPFLAGS -I/usr/include/freetype2"
-	fi
+	#if test -d "/usr/include/freetype2"; then
+	#	CPPFLAGS="$CPPFLAGS -I/usr/include/freetype2"
+	#	CPFLAGS="$CPFLAGS -I/usr/include/freetype2"
+	#fi
 	AC_CHECK_HEADERS([X11/Xft/Xft.h])
 	AC_CHECK_LIB(Xft, XftDisplayInfoGet, [X_LIBS="$XLIBS -lXft"])
 	AC_CHECK_HEADERS(X11/extensions/Xrender.h, [X_LIBS="$XLIBS -lXrender"])
