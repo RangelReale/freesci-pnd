@@ -1,0 +1,502 @@
+FreeSCI 0.6.4 is largely a bugfix release, addressing many constraints
+that prevented SCI0 games from being beatable.  We also added audio
+support for MIDI devices on newer versions of AmigaOS, and for General
+MIDI on all systems.  Finally, we replaced some code of unknown origin
+in our SetJump routine by a definitive clean-room re-implementation.
+
+
+
+
+-- 0.6.3 --
+
+The unstable release series continues, perhaps not quickly, but
+relentlessly.  While we have not yet achieved the stability of the
+stable release series, this release makes many SCI0 games largely
+playable again, by addressing many (though not all) of the known
+show-stopping bugs and, most importantly, restoring savegame
+functionality.  The biggest individual step forward in game support is
+a novel pathfinding mechanism, fixing collision detection (and, of
+course, path finding) in SCI01 and SCI1 games.  On the port side, we
+have restored Win32 support and now provide a fully operational DirectX
+driver-- thus, the graphics subsystem no longer depends on third-party
+libraries on this platform.  Furthermore, we now support AmigaOS 4,
+using the SDL graphics library, though our MIDI support on this
+platform is still rudimentary and excluded from the release.
+
+
+
+
+-- 0.6.2 --
+
+Two years after the last release of FreeSCI, another one sees the
+light of day. The sound system has stabilized a bit (it doesn't crash
+anymore, but still sounds funny from time to time :-), and an
+autodetection scheme has been written for SCI1 games. This means that
+most SCI1 games run without game-specific quirks in the configuration
+file. A color adjustment scheme has been implemented - this is part of
+our intention to provide (perhaps with the aid of our users ;-) a
+graphical improvement over the original interpreters; the system is
+currently implemented by means of the config file. Partial palette
+support has been implemented, so that text displayed in SCI1 games is
+now readable.
+
+
+
+
+-- 0.6.1 --
+
+Yet another version of FreeSCI has hit the streets, more than a year after
+its predecessor. This time with a totally redesigned sound system and
+partial support for SCI1.0. The new sound system includes support for digital
+samples, not only for SCI01 and SCI1, but also for SCI0 games which use
+them (primarily non-PC games, but the PC version of Space Quest 3 includes 
+a few left-over samples which aren't played with the original interpreter).
+None of these features are stable yet; but the sound system did improve a lot
+during the last few weeks before release, so I believe that the extra 3-week
+delay was warranted.
+
+
+
+
+-- 0.6.0 --
+
+This release was developed as part of Prof. Dr. Gary Nutt's course in Advanced
+Operating Systems at the University of Colorad at Boulder (USA). It contains
+many of the bug fixes found in the 0.3.4 release, but the most prominent
+change is a complete re-write of the underlying virtual machine structure
+to support a much larger address space (please refer to the 'glutton' paper
+for technical details). However, these massive internal changes also mean
+that a lot of things were broken, particularly savegames (and some kernel
+functionality, apparently); we also took the opportunity for removing the
+sound subsystem. So, in summary, it can do much less than 0.3.4, but it does
+what it does much better ;-)
+  Seriously, this step was needed for us to support SCI01 and later games.
+Any development regarding support for later SCI games will therefore happen
+in this branch. Right now, it is for development and review only; any
+work on getting it to compile on non-Linux/gcc systems would be greatly
+appreciated (as would any other work on it, e.g. adding sound drivers for
+the new sound subsystem, of course)!
+  If you want to play SCI games, this is the wrong release-- it probably
+won't do anything useful. If, however, you're interested in aiding with
+FreeSCI development, you have come to exactly the right place-- this code
+needs work, and, moreover, it still has a couple of fun bugs to figure out
+(many of which are easy to discover by just comparing it to stable FreeSCI).
+
+On a final note, congratulations again to Xiaojun Chen (who contributed to
+this release in a significant way) for finishing his M.Sc.!
+
+
+
+--- 0.3.3 ---
+
+Keeping with the tradition, let's have a look at how long we took this time.
+7 months, approximately; that's a lot of time; about 1/150th of a person's
+average lifetime, time that could have been spent differently... ah, who
+am I fooling, we didn't spend _all_ of these 7 months hacking at the code
+(we need to sleep and eat, too, you know).
+But, back to the matters at hand. You want to know what changed and, to be
+honest, there are few large ones, but an unusually high amount of smaller
+bug fixes and polishments. Many long-standing bugs have been fixed or were
+replaced with more interesting ones. You will find that almost all SCI0
+adventure games have been completed now; many of them were still unbeatable
+in the previous release. Win32 users will see a particularly large
+difference- thanks to Alex Angas' and Matt Hargett's continued attempts,
+this platform now seems to have a sound server that is actually useable,
+meaning that you should now be able to get decent sound support there.
+FreeSCI has also been ported to BeOS by Claudio Matsuoka, and to Linux on
+the Compaq iPaq, by Greg Gilbert. Also, we now have an excellent graphical
+configuration tool that takes all the complexity from editing your
+~/.freesci/config by hand, contributed by Rune Orsval- if you're new to
+FreeSCI, this is probably exactly what you're looking for.
+On the feature front, we have implemented an LRU resource manager- this
+should help a lot with conserving memory, particularly for larger games-
+but the most noticeable change it introduces is a vastly accellerated game
+startup.
+Well, that's about it; I'll leave the list of smaller changes and bug
+fixes for you to discover on your own, it's too long to list it here anyway.
+
+
+
+--- 0.3.2 ---
+
+Slightly more than half the time we needed from 0.3.0 to 0.3.1 has passed,
+and the list has been more active than ever. I guess the dry days of the
+gfx subsystem implementation period are pretty much over; but there's still
+much that needs or can be done- for graphics support, but particularly with
+regard to sound support. Yes, we have it- finally, you no longer have to
+start and stop Tom Lewandowski's Sierra Soundtrack mp3s manually while
+running FreeSCI. The new sound subsystem, planned and structurally
+implemented by Rickard Lind and finalized by Solomon Peachy (who also added
+a considerable amount of other features) was the last missing feature that
+separated FreeSCI from Sierra SCI (the SCI0 one, that is). However, our
+MT-32 to General MIDI mappings are still experimental, and there is no sound
+support for anything other than MT-32 or General MIDI- it's great for those
+of us who have an MT-32, but sound cards without sequencers are pretty
+common, so we will have to look into getting digital sound output working
+in future versions. Graphics have been improved a bit, too- trilinear
+filtering and background picture antialiasing, mostly.
+While the DOS port is now officially orphaned, Matt Hargett managed to get
+the Win32 port to build and run (with sound support), using Solomon's SDL
+graphics driver and sound server. This means that FreeSCI finally is
+available for Win32 again!
+While I would hope that this procedure works on BeOS, too, I don't think
+so with regard to MacOS- the SDL sound server uses pre-emptive multi-
+threading, which simply isn't present on MacOS. Oh well, we can't save all
+of the world with one release.
+Another nice feature is savegame quickloading: By specifying a savegame name
+(which is not identical to the name you entered in the F5 savegame menu;
+run 'sciv -l' to get a list of valid names) after the game name when starting
+the interpreter, you can now skip the intro and jump directly to whereever
+you left off.
+
+
+
+--- 0.3.1 ---
+
+Looking at the previous releases, it would appear that more and more time
+passes between them. However, more and more work gets done between them
+as well. Also, considering the current amount of traffic on the mailing
+list, it seems likely that 0.3.2 will take much less time than 0.3.1.
+OK, let's skip the introspection and auguration; let's get to the
+interesting stuff.
+Some things that used to work in 0.3.0 no longer do so in 0.3.1; this is
+unfortunate in most cases, but I will try to explain why that is.
+Due to a re-design of the graphics subsystem, the on-screen console was
+completely broken. Using the off-screen console, it's still possible to
+debug the game, though, and that should suffice for most people. Also,
+this re-design broke the existing DOS and Win32 drivers, and, ultimately,
+support for these platforms. FreeSCI 0.3.1 is UNIX only, although we're
+working hard to remedy the situation for the next release.
+So much for broken stuff. Of course, FreeSCI didn't just get worse- we
+wouldn't be releasing a new version of it then. Not without a backup plan,
+anyway. This release contains the usual amount of bugfixes- including fixes
+for a huge number of memory leaks- and, as hinted above, a completely re-
+designed graphics subsystem. This new subsystem fixes many of the known bugs
+and problems in a large number of games, increases the overall game speed at
+only a minuscle increase of memory usage, and adds functionality to scale the
+display almost arbitrarily (note that the increase in memory usage may get
+rather less minuscle if you do that too much). Also, several options were
+added to better control the way SCI0 background images are rendered.
+Finally, we are proud to announce that the first SCI game ever has been
+completed on FreeSCI: Ben Esacove finished Space Quest 3 with a post- 0.3.0
+CVS snapshot (and managed to point out a bunch of bugs along the way).
+For the next release, we'll be working on sound, general bugfixing, porting
+to non-UNIXish platforms (any volunteers for DOS? RiscOS? AmigaOS? MacOS?),
+and further reducing memory usage.
+
+
+
+--- 0.3.0 ---
+
+Finally, 0.3.0 has been released! This release took particularly long,
+mostly because of a major break from january to early april. Anyway, it
+might be argued that it was worth it: This is the first release with
+a fully functional text parser, plus, we have fixed all major (and many
+minor) bugs, implemented the menu bar, added all missing kernel functions-
+except for debug functions that aren't really used by SCI games, and made
+sure in-game saving and restoring works. Also, Rink Springer has ported
+FreeSCI to ia32/DOS (the platform the original SCI runs on, for those who
+forgot).
+Also, an experimental glx target was written for platforms without libggi
+installed; using it, FreeSCI can now be made to compile (using the native
+cc) and run on mips/Irix systems, although this target and platform should
+still be considered experimental.
+As promised in the FAQ, 0.3.0 has all interpreter features required to run
+and complete SCI0 games. At least in theory; so far, no reports of games
+having been finished have arrived. We believe that what we have should be
+everything Sierra SCI had, though; maybe YOU can be the first person ever to
+finish an SCI adventure with FreeSCI!
+For the next releases, we will be re-implementing the graphics subsystem
+for more efficient graphics, and add sound support.
+
+
+
+--- 0.2.5 ---
+
+This release took somewhat longer than the previous ones; partially because
+of a 1.5 month break in the development cycle, but also because the
+daily CVS snapshots provided by Claudio Matsuoka invalidated the need to
+push out releases at semi-regular intervals.
+So, what's new? Quite a lot, actually: Input support has been implemented,
+many of the missing kernel functions were written, it is now possible to
+save and restore the game state, and a "NULL" sound server that handles
+sound cues was implemented. At least for the UNIXish platforms, as ia32/
+Win32 doesn't take fork()s, pipe()s and related stuff too well. ia32/Win32?
+Indeed, FreeSCI has been ported to Windows by Dmitry Jemerov.
+The port uses DirectX for drawing and can handle both windowed and full-screen
+mode; it is integrated into the FreeSCI source tree (a separate binary has
+been provided by Dmitry for those Windows users who aren't fortunate enough
+to have VisualC++ installed, though).
+Meanwhile, FreeSCI has been tested with success on ia32/FreeBSD and
+ia32/NetBSD, so the number of supported platforms has doubled since the last
+release.
+
+
+
+--- 0.2.4: ---
+
+0.2.4 has arrived, and we're still not finished ;-)
+Seriosly, though, this is the first release of FreeSCI that displays and
+animates graphics according to the directions given by SCI scripts
+(at least it works for some games).
+Since input support has not yet been implemented, games that require
+interaction early on (like QfG or LSL2) don't show very much yet; other
+games, like SQ3, already animate some of their graphics.
+We have implemented more than half of the SCI kernel functionality since
+the last release, fixed countless bugs, and prepared sound and graphics
+for the next millenium. Well, for the next release, at least.
+During the rewrite of the graphics system, the demo program was broken
+in such a way that it made no sense to support it any further in the current
+form. It is not part of this distribution, and is unlikely to return in
+later releases, since most of its functionality are provided by the main
+executable as well; the missing features (displaying arbitrary pic and view
+resources) might return in an independant pic viewer later on.
+
+
+
+--- 0.2.3: ---
+
+So you've decided to have a look at the 0.2.3 release of FreeSCI. It's
+been quite a while since the last public release, so we decided to come
+up with something bigger this time.
+The most noticeable change is the existance of a complete (that's what
+we hope, anyway) implementation of the SCI virtual machine. Now all that
+remains to be implemented are the 0x70 kernel functions to glue the VM
+and the graphics, sound, and input code together. Special thanks go out
+to Lars Skovlund (once again) for providing the information required to
+build this!
+Have a look at the README for a list of all currently available debugging
+commands (and feel free to add your own, even though script_debug.c is
+somewhat of a mess right now).
+Other news include the support of alternate base palettes for pic drawing
+(as used by EGA Quest for Glory for day/night pictures), a fixed sci opcode
+table in script.c, improvements in sound mapping, and support for ports
+(clipped rectangular sub-spaces of the game screen, used for windows and
+similar stuff).
+There have been substantial additions to the documentation as well, most
+of which were contributed by Lars.
+Concerning the next version: There are lots of small and simple kernel
+functions in SCI. If you want to help but don't have a lot of time at your
+hands, try to figure out what they do (e.g. by examining them with the built-in
+debugger of the original SCI engine (activate with LShift-Rshift-TabMinus))
+and either drop us a note or implement it yourself.
+
+
+
+--- 0.2.2: ---
+
+So this is the 0.2.2 release. Well, it's mostly a bug fix release, though
+a few things have been added. Most notably, Magnus Reftel was able to build
+a heap based on Lars Skovlund's specs (Lars built a heap as well, but we
+decided not to use it in order to remain as far as possible from the original
+code (Lars had used disassembled code as a basis for his work)). Thanks to
+Lars for his work, anyway- he helped to understand us most of the memory
+management stuff.
+The heap still has to be integrated, but that'll have time until later.
+Other user-visible changes include several bug fixes resulting in at least
+partial Linux-Alpha support, a change to sciunpack which makes the tool
+add the two-byte header SCI0 games expect (to ease abusing the original
+SCI engines for experimental purposes), a resource grepper for the command
+line, and, yes, the end of GII involvement in tools/console.c. It now
+operates by using libreadline (which requires libcurses) for input operations;
+IMHO, it's much more useable now.
+
+At the moment, it looks as if we're going CVS thanks to Chris Lansdown's
+generous offer; this should result in better and more recent updates. There
+will still be "official" development releases, though, for those people who
+don't want to get entangled in the dark side of CVS. Also, the helpful
+guys from Linuxgames.com and Telefragged, who are hosting us now, are working
+to get a mailing list up and running; this should be beneficial to develop-
+ment as well.
+
+
+
+--- 0.2.1: ---
+
+Another version has been thrown out of the window into the cold night
+outside... Well, here are the news and changes:
+The picture drawing stuff has had some bugs fixed; it works /almost/
+perfectly now. It should only take one more improvement of the filling
+code to get things absolutely right.
+Sound is now mapped automagically. This means that initializing the sound
+engine will abuse the patch.002 resource to create a midi mapping. It's
+far from being perfect (for example, instruments that aren't mapped are
+mapped to the GM equivalent of their instrument number, which is sub-
+ideal). More work will be required, but this appears to be heading in the
+right direction. (Unfortunately, neither Camelot nor QfG2 have a patch.002;
+some other way of mapping instruments will have to be figured out for
+them).
+All types of SCI01 compression are now supported (as well as the SCI1
+cursors). So QfG2 support will be very close once the VM's up and running :-)
+(Thanks to Ravi from the SCI message board, who noted that the missing
+SCI1 type 1 compression simply is SCI0 type 2 compression ;)
+Speaking of the VM, Magnus has done some major research and implementation
+sessions which resulted in both improved object loading code and in the
+beginning of the VM (including several of the SCI opcodes and three kernel
+functions). The structure looks good, so this will soon become a real
+VM :-)
+He has built a python-based class browser as well. It hasn't been merged
+yet, but it should compile stand-alone (the source is located in
+src/python.tar.gz). Swig (http://www.swig.org) is required for compilation.
+
+
+
+--- 0.2.0: ---
+
+Sooo... what's new for this version? Well, several things are.
+First off, Magnus' code disassembly and class analysis code has reached
+the stage where everything that's known has been added, so it's time to
+experiment with it. This means that work on the VM, the heart of all this,
+can start immediately :-)
+As a matter of fact, it has already started, but don't let that tiny fact
+distract you from this dramatical moment.
+Also, some input stuff (using ggi/gii) has been written. However, per-
+formance sucked badly when I tested it with the current display routines,
+so the displaying was re-written to take advantage of some of libggi's
+more advanced features. Performance is much better now, the mouse pointer
+should move almost fluently on most modern machines.
+To have a look at it (and to check out the on-screen command console),
+try qg1demo. CTRL-` (with ` being the same apostrophe that you use to
+bring up the Quake console brings it up. Try the 'list' and 'man' commands
+to find out what you can do.
+As for the sound: I now believe that some of the patch resources contain
+names for the instruments used in the game. This fact might be used to
+create better midi maps :-)
+They appear to contain sound effects as well; if we want those to work,
+it'll be neccessary to write an internal midi player, or to use gsi's
+upcoming software synth feature.
+
+
+
+--- 0.1.5: ---
+
+So the last version didn't work; the auto-detection code reported that
+the resources were not loaded successfully even though they were.
+Sorry for not double-checking this code.
+However, these are development releases, so something like this may very well
+happen again.
+Anyway, this release is just a small fix of those problems (and a few other
+problems related to gsi which made freesci programs behave unfriendly towars
+other gsi-using programs). Also, a new way of drawing graphics has been
+added- 'interpolation mode'.
+Originally, Sierra simulated having more than 16 colors by using simple
+dithering techniques. In 'dithering mode', i.e. if sci_graphics_interpolate
+is 0, freesci programs will render pictures in an (almost) identical way.
+However, if sci_graphics_interpolate is set to something else, picture
+resources will be drawn in 256 colors, each of which is calculated by inter-
+polating the rgb values of the two original EGA colors that were used for
+dithering (to be precise, dithering color 0 is taken to be slightly more
+important (3/5) than color 1 (2/5))
+I can't say for sure which way looks better, so, in the future, both modes
+will be supported (with dithered mode being given preferrence).
+You can compare the results of drawing in either mode on the screenshots
+page of the freesci homepage.
+
+
+
+--- 0.1.4: ---
+
+The good news is: Sound support is in. The bad news is: It doesn't work.
+Not completely, anyway; Sierra adheres somewhat to the MIDI specs (some minor
+quirks, most of which Ravi already discovered), but they appear to have
+used a proprietary MIDI instrument mapping. This isn't really surprising;
+AFAIK GM wasn't written at the time they released the first SCI0 games.
+Anyway, sound support can be found in the new subdirectory src/sound.
+Sound can be extracted or even played (if GSI is available), but the
+results sound somewhat different to what we used to expect.
+The instrument map is located in src/sound/midi.c; please feel free to
+modify and test it in whatever way you seem fit. BTW, it is absolutely
+possible that each Sierra game uses a different instrument mapping, or
+that parts of these can be found in the mysterious 'patch' resources.
+Also, percussions don't seem to work exactly as in the original games
+(try QfG1s sound.001).
+A good way to proceed might be to extract the music files from the QfG 1
+remake and compare them to the originals- since the music file format has
+changed between SCI0 and SCI01, this might both reveal the differences and
+eventually produce useable instrument mappings (if QfG1 uses GM maps...)
+Another piece of good news: SCI1 decompression works, at least for methods
+2 and 3 (and, of course, 0). Method 1 (which is used in SCI01) doesn't,
+but it's possible that this is just a variant of the SCI0 method 1 (plain
+SCI0 method 1 doesn't quite work). Method 4 hasn't been ported yet, but
+DOS source code from Carl's decoder is available.
+(FYI: Since I haven't been able to completely decompress something, I'm
+not absolutely sure if these methods work. Please try them as hard as you
+can.)
+On the tools front, unpack and resourcelist have been merged into sciunpack,
+which comes with facilities to convert sound resources to midi files and
+pictures into png files (the new graphics/graphics_png.c could also be used
+to make screenshots from a running SCI game if we had one running).
+And, while I'm at it, the ggi people have fixed the endianness bug that made
+colors look screwed when displaying from big endian machines to little
+endian machines. If you happen to use both little endian and big endian
+machines, you should upgrade your version of libggi.
+
+Addendum: If you want to see the sound player in action (and have your GSI
+set up correctly), try the QfG1 demo. It doesn't loop the music as it should
+yet, but it proves that GSI support *is* working ;-)
+(BTW: The "Erana's Peace" theme currently is the best-working song. You should
+not expect the other MIDIs to sound nearly as good.)
+
+
+
+--- 0.1.3: ---
+
+Even more portability fixes. FreeSCI has now been successfully tested on
+sparc-sun-solaris2.5 over an X connection. However, the colors are messed
+up; I *think* that it could be a bug in libggi; this is currently under
+investigation.
+Views should draw much faster now. Also, they are reversed if a certain
+flag is set.
+A cause for a segfault/coredump in decompress.c has been cured: It would
+behave strangely if a resource had a size of 0, which, apparently, is
+possible.
+resource.c now starts at resource.001, if resource.000 is not available.
+Some games (SQ3) seem to come without a resource.000, so this was
+neccessary. BTW, SQ3 appears to work now.
+It is now possible to specify the locations of libggi and libglib (as
+well as their header files) during configure time.
+
+
+
+--- 0.1.2: ---
+
+Additional portability fixes; test runs on big-endian machines will happen
+Real Soon Now.
+The data types gu?int(8|16) from glib.h now superceed the u?int(8|16) types
+generated by autoconf magic.
+Stability fixes all over resource.c and decompress.c (those were badly needed)
+seem to prevent any memory leaks, at least on my machine.
+Configure now accepts additional paths for ggi. Although configure --help
+claims so, those aren't specific to ggi- yet.
+On the graphics front, crashes caused by the filling code re-filling any white
+objects (like clouds) seem to have disappeared, even though filling isn't
+perfect yet (this appears to derive from a bug deep down in the understanding
+of how the oritginal SCI interpreter handles filling). Lines now seem to behave
+exactly like their Sierra ancestors, so the Infamous Incomplete Image of the
+brigands' fortress from QG1 is now obsolete. This means that graphics should
+generally be *much* better.
+
+
+--- 0.1.1: ---
+
+New portability stuff (using automake/autoconf) has been introduced.
+The data types (u)int8 and (u)int16 can now be used to specify (unsigned)
+8 or 16 bit data types. (u)int8 currently only checks if char is 8 bit and
+aborts if it isn't, however.
+am/ac also define BIGENDIAN_WORDS if we are in a big-endian world. Magnus'
+getInt16() (formerly getInt()) should be used whenever two resource bytes
+are converted into an int16; this function is defined as a macro if we
+are little-endian, but it also properly translates those two bytes if we
+are not.
+The /src/test directory now contains two new utilities: scriptdump and voc-
+dump. While scriptdump appears to work nicely, I've had problems with
+vocdump (testing qg1). It only works for kernel message table 1.
+Magnus reports that he's had problems with qg1, too, but that Conquest of
+Camelot works properly.
+For those interested in looking into it, the sources are in
+src/core/vocabulary.c.
+Background graphics still don't work perfectly. But I'll have to look into
+this at a later time.
+By the way, the core and graphics files now get build as libraries. It
+looks somewhat nicer this way.
+

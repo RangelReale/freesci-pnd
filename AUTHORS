@@ -1,0 +1,308 @@
+Authors of FreeSCI (source code contributions):
+(see also the file THANKS)
+
+
+
+Carl Muckenhoupt: <carl@wurb.com>
+[Original GFX code]
+scicore/
+	decompress0.c (parts)
+	decompress1.c (parts)
+
+
+
+Christoph Reichenbach: <creichen@rbg.informatik.tu-darmstadt.de>
+[Maintenance]
+[Makefile.am, configure.in etc.]
+[Bug fixes]
+main.c
+config.l (most of it)
+gfx/
+	font.c
+	gfx_crossblit.c
+	gfx_line.c
+	gfx_pixmap_scale.c
+	gfx_resource.c
+	gfx_support.c
+	gfx_test.c
+	gfx_tools.c
+	gfx_console.c
+	menubar.c
+	operations.c
+	resmgr.c
+	sbtree.c
+	sci_widgets.c
+	widgets.c
+	drivers/
+		gfx_drivers.c
+		ggi_driver.c
+		xlib_driver.c (parts)
+		directfb_driver.c
+		null_driver.c
+	resources/
+		sci_cursor_0.c
+		sci_font.c
+		sci_pal_1.c
+		sci_pic_0.c
+		sci_resmgr.c
+		sci_view_0.c
+		sci_view_1.c
+scicore/
+	console.c
+	decompress0.c (parts)
+	decompress01.c (parts)
+	decompress1.c (parts)
+	decompress11.c
+	modules.c
+	resource.c
+	resource_map.c
+	resource_patch.c
+	script.c
+	tools.c
+	vocab.c (parts)
+	vocab_debug.c
+	huffmake.pl
+engine/
+	game.c
+	grammar.c
+	heap.c
+	kernel.c
+	kevent.c
+	kfile.c
+	kgraphics.c
+	klists.c
+	kmath.c
+	kmenu.c
+	kmovement.c
+	kscripts.c
+	ksound.c
+	kstring.c
+	said.y
+	scriptdebug.c
+	simplesaid.c
+	state.c
+	vm.c
+	savegame.cfsml
+	cfsml.pl
+sound/
+	sound.c (most of it)
+	polled_ss.c (parts)
+	polled_ss_unix.c (parts)
+	song_iterator.c
+	sfx_save.cfsml
+	oldmidi.c (minor parts)
+tools/
+	sciunpack.c
+	sciconsole.c
+
+
+
+Dmitry Jemerov: <yole@exch.nnz.spb.su>
+[win32 compatibility fixes all over the place]
+[Bug fixes]
+[Original DirectDraw driver]
+config.l (parts)
+tools/
+	scidisasm.c
+win32/
+	classes.dsp (original version)
+	console.dsp (original version)
+	freesci.dsp (original version)
+	listwords.dsp (original version)
+	scidisasm.dsp (original version)
+	sciunpack.dsp (original version)
+	sciv.dsp (original version)
+	scriptdump.dsp (original version)
+	vocabdump.dsp (original version)
+
+
+
+Lars Skovlund: <lskovlun@image.dk>
+[Most research]
+[Major bugfixes]
+engine/
+	kmath.c (parts)
+	kgraphics.c (parts)
+graphics/
+	menubar.c (parts)
+tools/
+	listwords.c
+
+
+
+Magnus Reftel: <d96reftl@dtek.chalmers.se>
+python.tar.gz
+[Bug fixes]
+engine/
+	script.c
+	heap.c
+scicore/
+	vocabulary.c (parts)
+	old_objects.c
+tools/
+	disasm.c
+	classes.c
+
+
+
+Rickard Lind: <rpl@dd.chalmers.se>
+sound/
+	oldmidi.c (most of it)
+sfx/
+	main.c
+	midi.c
+	midi_mt32.c
+	midiout.c
+	midiout_alsaraw.c
+	midiout_unixraw.c
+	sfx_save.c
+	lists/
+		gm_patches.c
+		mt32_timbres.c
+	mt32_GM_mapping/
+		gm_patches.c
+		main.c
+		mt32_timbres.c
+
+
+
+Rink Springer: <rink@springer.cx>
+[makefile.dos and DOS compatibility fixes all over the place]
+[Bug fixes]
+scicore/
+	sci_dos.c
+graphics/
+	graphics_dfgx.c
+sound/
+	soundserver_dos.c
+
+
+
+Sergey Lapin: <slapin@karelia.ru>
+scicore/
+	decompress1.c (parts)
+
+
+
+Petr Vyhnak: <pvyhnak@attglobal.net>
+[win32 compatibility fixes all over the place]
+[Bug fixes]
+scicore/
+	hufftree.1
+	hufftree.2
+	hufftree.3
+
+
+Solomon Peachy: <pizza@shaftnet.org>
+sound/ 
+	midi_mt32.c (various changes)
+	midiout.c (various changes)
+	midiout_alsaraw.c (various changes)
+	midiout_unixraw.c (various changes)
+	pcmout.c
+	pcmout_sdl.c
+	pcmout_oss.c
+	pcmout_alsa.c
+	polled_ss_sdl.c
+	soundserver.c (abstaction part)
+	midi_adlibemu.c
+	
+gfx/drivers/
+	sdl_driver.c
+	xlib_driver.c (added MIT-SHM)
+
+
+
+Matt Hargett: <matt@use.net>
+[win32 fixes]
+[Bug fixes]
+[Hardcore QA]
+[Cleanups and assertions all over the place]
+sound/
+	midiout_win32mci.c
+	event_ss_win32.c (parts)
+win32/
+	classes.dsp (updates)
+	console.dsp (updates)
+	freesci.dsp (updates)
+	listwords.dsp (updates)
+	scidisasm.dsp (updates)
+	sciunpack.dsp (updates)
+	sciv.dsp (updates)
+	scriptdump.dsp (updates)
+	vocabdump.dsp (updates)
+
+
+Rune Orsval: <u951663@daimi.au.dk>
+conf/
+	freesci-setup (original)
+	config.template (original)
+
+
+Vyacheslav Dikonov: <sdiconov@mail.ru>
+conf/
+	freesci-setup (improvements)
+	config.template (improvements)
+
+
+Alexander R. Angas: <wgd@adelaide.on.net>
+[Win32 optimizations and updates in many files]
+[Sound server restructuring]
+scicore/
+	sci_memory.c
+sound/
+	polled_ss.c (parts)
+	event_ss.c
+	event_ss_win32.c
+	polled_ss.c (parts)
+	polled_ss_sdl.c (parts)
+gfx/
+	drivers/
+		dx_driver.c
+include/
+	sci_memory.h
+
+
+Walter van Niftrik: <w.f.b.w.v.niftrik@stud.tue.nl>
+[Dreamcast fixes]
+dc/
+	dc.c
+	dc_save.c
+gfx/
+	drivers/
+		dc_driver.c
+sound/
+	pcmout_dc.c
+	polled_ss_dc.c
+
+
+Ruediger Hanke: <tomjoad@muenster.de>
+[MorphOS fixes]
+morphos/
+	morphos.c
+sound/
+	midiout_morphos.c
+
+
+Xiaojun Chen:
+engine/
+	seg_manager.c (most of it)
+	vm.c (script instantiation)
+
+
+Hugues Valois:
+main.c
+menu/
+	game_select_init.c
+	game_select_screen.c
+
+Hubert Maier:
+[AmigaOS 4 fixes]
+
+Jordi Vilalta:
+[Numerous fixes and cleanups]
+[Support for building with C++]
+
+Max Horn:
+engine/
+	kmovement.c

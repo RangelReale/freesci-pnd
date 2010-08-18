@@ -1,0 +1,150 @@
+.TH "FreeSCI tools" 6 "Jan 27, 2001" 0.6.2 FreeSCI
+
+.SH NAME
+.HP
+.BR scidisasm 
+\- Disassembles all script resources into .script files
+.HP
+.BR sciunpack 
+\- A tool for unpacking and converting SCI resource data
+
+.SH DESCRIPTION
+.P
+FreeSCI is a portable interpreter for SCI games, such as the Space Quest
+series (starting with SQ3) or Leisure Suit Larry (2 and sequels).
+.P
+This man page describes the tools that come with FreeSCI. The main
+executable (which you're probably interesed in if you want to play SCI 
+games) is described in \fBsciv\fR(6).
+
+.BR SCIDISASM
+.P
+The \fBscidisasm\fR program disassembles all script resources in SCI
+resource files in the current directory into \fI.script\fR files.
+.P
+It takes five optional command line switches: \fB--version\fR prints the
+version number and exists; \fB--help\fR displays a short help message
+and exists; \fB--hexdump\fR hex dumps all script resources;
+\fB--verbose\fR prints additional disassembly information;
+\fB--opcode-size\fR prints opcode size postfixes.
+
+.BR SCIUNPACK
+.P
+\fBsciunpack\fR is a tool  for  unpacking, printing,  and  converting SCI
+resource data
+.P
+Usage: \fBsciunpack\fR [\fIoperation\fR] [\fIoptions\fR] <\fIresource.number\fR>
+.P
+Alternatively, the resource type and number can be specified as two
+seperate options.
+.P
+Available resources are: \fBview\fR, \fBpic\fR, \fBscript\fR,
+\fBtext\fR, \fBsound\fR, \fBmemory\fR, \fBvocab\fR, \fBfont\fR,
+\fBcursor\fR, \fBpatch\fR, \fBbitmap\fR, \fBpalette\fR, \fBcdaudio\fR,
+\fBaudio\fR, \fBsync\fR, \fBsync\fR, \fBmessage\fR, \fBmap\fR,
+\fBheap\fR.
+.P
+If * is specified instead of <number>, all resources of given type 
+will be unpacked.
+.P
+sciunpack supports the following operations:
+.TP
+.BR "--unpack, -U"
+This is the default action; it unpacks the specified resource.
+.TP
+.BR "--list, -L"
+Lists all available resources.
+.TP
+.BR "--words, -W"
+Prints all vocabulary words understood by the parser. See 
+.TP
+.BR "--objects, -O"
+Outputs the full object hierarchy
+.TP
+.BR "--vocab, -V"
+This operation goes through several relevant 'vocab' resources,
+interprets their contents, and prints them sequentially. First,
+all selector (variable/function) names are print, then all opcodes,
+followed by the names of all kernel functions, and finally the
+class ID/script lookup table.
+.TP
+.BR --version
+Prints the version number.
+.TP
+.BR  "--help, -h"   
+Displays a short help message.
+.P
+Also, there are several options available:
+.TP
+.BR "--verbose, -v"   
+Enables additional output.
+.TP
+.BR  "--convert, -c"
+Forces sound resources to be converted to General MIDI on some platforms,
+and script resources to be dissected.
+.TP
+.BR  "--output-file \fI<file>\fR, -o\fI<file>\fR"       
+Selects output file \fIfile\fR.
+.TP
+.BR  "--gamedir \fI<dir>\fR, -d\fI<dir>\fR"       
+Read game resources from \fIdir\fR.
+.TP
+.BR  --with-header          
+Forces the SCI header to be written (default).
+.TP
+.BR  --without-header       
+Prevents the two SCI header bytes from being.
+written
+.TP
+.BR  --sort-alpha
+Sorts in alphabetical order when listing words (\fI-W\fR)
+.TP
+.BR  --sort-group
+Sorts by group IDs when listing words (\fI-W\fR)
+.P
+As a default, 'resource.number' is the output filename, unless conversion
+is enabled (\fI-c\fR). With conversion, a few resource types are treated
+specially:
+.IP -
+sound resources: will be converted to General MIDI, stored in
+\fI<number>.midi\fR (this only works on GNU libc systems)
+.IP -
+script resources: will be dissected and stored in
+\fI<number>.script\fR
+
+.TP
+.BR SCRIPTDUMP
+.P
+The \fIscriptdump\fR tool can be used to disassemble all selector  
+methods  into  SCI assembly. It takes no command line options and reads
+the resource files from the current directory.
+
+.BR VOCABDUMP
+.P
+This tool can be used to display  kernel function and selector names. It
+is obsolete.
+
+.SH SEE ALSO
+.BR freesci (6).
+
+.SH AUTHORS
+.P
+This software is copyright (c) 1999-2006 by
+Christoph Reichenbach <\fIcreichen@gmail.com\fR>,
+Carl Muckenhoupt <\fIcarl@wurb.com\fR>,
+Dmitry Jemerov <\fIyole@exch.nnz.spb.su\fR>, 
+Magnus Reftel <\fId96reftl@dtek.chalmers.se\fR>,
+Sergey Lapin <\fIslapin@karelia.ru\fR>,
+Lars Skovlund <\fIlskovlun@image.dk\fR>,
+Matt Hargett <\fImatt@use.net\fR>,
+Solomon Peachy <\fIpizza@shaftnet.org\fR>,
+Walter van Niftrik <\fw.f.b.w.v.niftrik@stud.tue.nl\fR>,
+Ruediger Hanke <\fItomjoad@muenster.de\fR>,
+Hugues Valois <\fIhugues_valois@hotmail.com\fR>,
+Alexander Angas <\fwgd@adelaide.on.net\fR>,
+Rickard Lind <\fIrpl@dd.chalmers.se\fR> and
+Rink Springer <\fIrink@springer.cx\fR>.
+.P
+This man page was written by Bas Zoetekouw <\fIbas@debian.org\fR> and
+Christoph Reichenbach.
+

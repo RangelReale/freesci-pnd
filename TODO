@@ -1,0 +1,29 @@
+TODO items:
+
+Scheduled for 0.6.4:
+--------------------
+- Config subsystem with in-game config changes
+- safer VM support for strings
+
+Not scheduled:
+--------------
+Architectural:
+- gfx subsystem remodelling for proper palette emulation support
+- gfx widget subsystem remodelling to reduce fanciness and increase
+  similarity to classic SCI rendering
+- MT-32 -> GM mapping (investigate direct timidity support)
+- The sound subsystem doesn't use proper locking, which might
+  introduce race conditions -> introduce abstract locking API
+Testing:
+- test song iterator repetition, fix where neccessary (this one's not
+  neccessarily so long-term)
+Other:
+- Adjust MT-32 midiout to assume a max rate of 3125 bytes per second.
+  Ensure that we wait long enough after each sysex.
+- Fix realtime song player detection of situations in which too much
+  time has passed
+- if scaled images are turned off, drawing SCI1 (pixmap) backgrounds
+  is completely broken for scaled (-x2 etc.) sizes. Fix this!
+- Status bar: When removed, recover background (as opposed to just
+  drawing black)-- fixes Jones16 menu bar
+

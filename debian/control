@@ -1,0 +1,34 @@
+Source: freesci
+Section: games
+Priority: extra
+Maintainer: Bas Zoetekouw <bas@debian.org>
+Standards-Version: 3.5.2
+Build-Depends: debhelper (>=3.0.15), sgmltools-lite, libggi2-dev, libncurses5-dev, libpng2-dev, libreadline4-dev, zlib1g-dev, flex, libasound1-dev, libsdl1.2-dev (>=1.2.2-3.1), lynx, autoconf, automake
+
+Package: freesci
+Architecture: any
+Depends: ${shlibs:Depends}, libggi-target-x | libggi-target-aa | libggi-target-fbdev | libggi-target-svgalib
+Suggests: freesci-doc
+Description: a portable interpreter for SCI games like Space Quest 3
+ FreeSCI is a portable interpreter for SCI games, such as the Space Quest
+ series (starting with SQ3) or Leisure Suit Larry (2 and sequels).
+ .
+ FreeSCI is in beta right now; the current release still has several known
+ bugs. It is feature-complete within the following limits:
+   - Only SCI0 games are supported
+   - The SCI debug functions aren't fully supported (and probably never
+     will be, since FreeSCI uses its own debug functions).
+ .
+ It offers the following improvements over Sierra SCI:
+   - Improved background picture support
+   - Trilinear filtering for text and images
+   - readline-like editing in controls
+   - General MIDI sound output (still experimental)
+
+Package: freesci-doc
+Architecture: all
+Description: Documentation for FreeSCI
+ This is the documentation for FreeSCI, a portable interpreter for SCI
+ games, such as the Space Quest series. It also contains a book
+ describing the SCI (versions 0, 1 and 2) to the extent known to the
+ general public.

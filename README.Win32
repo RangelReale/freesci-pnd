@@ -1,0 +1,161 @@
+1 About the Win32 build of FreeSCI
+==================================
+
+The Win32 version of FreeSCI is virtually at the same level of
+functionality as the UNIX version. See 'Known Problems' for the major bugs
+affecting this platform.
+
+
+2 Building FreeSCI for Win32 on Windows
+=======================================
+
+2.1 Requirements
+----------------
+
+ * Visual C++ or Visual Studio 2003 or higher
+
+ * DirectX SDK 8.0a, available by searching for DX8a_SDK.exe
+   (Not required for users of Visual C++ / Studio 2003)
+
+ * SDL 1.2 development library for Win32, available from http://www.libsdl.org/
+
+
+2.1.1 Visual C++ include/lib directories
+----------------------------------------
+
+For users of Visual C++ or Visual Studio 2005 or higher, the default locations
+used for include and lib files need to be configured for the DirectX SDK.
+To do this go to the Tools / Options menu, then expand 'Projects and Solutions'
+and select 'VC++ Directories'. Below are the directories you need to enter,
+assuming the DirectX SDK has been installed to its default location. Make sure
+they are located at the bottom of the list.
+
+   Include files  -> c:\mssdk\include
+   Library files  -> c:\mssdk\lib
+
+
+2.2 Directory structure
+-----------------------
+
+Download source code for current or development releases as described on the
+FreeSCI web site. Extract these files along with the SDL development files
+according to the following directory structure:
+
+    \freesci
+        \bin
+        \src
+            \win32
+    \SDL
+        \include
+        \lib
+
+
+2.3 How to build
+----------------
+
+1. Go to the src\win32 directory and open the solution according to your
+version of Visual C++.
+
+   Visual C++/Studio 2003: msvc71-2003\freesci.sln
+   Visual C++/Studio 2005: msvc80-2005\freesci.sln
+   Visual C++/Studio 2008: msvc90-2008\freesci.sln
+
+2. Set the active project to "freesci - Win32 Release". Rebuild all.
+
+3. The fsci.dll and freesci.exe binaries will build to the Release folder under
+   your solution directory. A post-build step will copy sdl.dll here as well.
+
+4. Copy the game directory on the CD to the same location as freesci.exe, or
+   use the -d command line option (see README).
+
+5. Start playing FreeSCI!
+
+
+3 Config
+========
+
+The configuration options described below should be put into your config file,
+located at %USERPROFILE%\FreeSCI\config .
+
+
+3.1 Graphics
+------------
+
+This section only describes Win32 specific graphics settings. You can improve
+the display of your game by using the settings that apply to all platforms
+described in README. In particular, see the config example for LSL3 there.
+
+
+3.1.1 SDL
+---------
+
+This is the default driver used when running FreeSCI. It can be explicitly
+specified with the -gSDL command line switch. As this is a cross-platform
+driver, its options are described in README.
+
+
+3.1.2 DirectX
+-------------
+
+The DirectX driver will run with the -gdirectx command line switch on versions
+of DirectX 8.0a (for Windows 95) and higher. While the driver is only rendering
+2D images, significant performance gains may be achieved by using a 3D graphics
+card with the driver.
+
+To change the adapter, add this line to your FreeSCI config file:
+gfx.directx.adapterid = x
+Set x to the number associated with the adapter you want (these are listed
+on the console screen when you first start FreeSCI).
+
+
+3.2 Sound
+---------
+
+Sound support is currently hardwired; future versions will again allow
+sound to be configured.
+
+
+4 Known Problems
+================
+
+4.1 Graphics
+------------
+
+4.1.1 SDL
+---------
+
+ * When scaling beyond 3 times (-x3 or -y3), cursor redraws no longer work
+   properly.
+
+ * Fullscreen mode does not work.
+
+
+4.1.2 DirectX
+-------------
+
+ * Cursor image corrupt in some resolutions.
+
+ * Fullscreen mode does not work.
+
+ * You are unable to move the FreeSCI window.
+
+
+5 Debugging
+===========
+
+Have a read of topics relating to debugging Visual C++ on
+http://msdn.microsoft.com/ or e-mail the mailing list for help with something
+specific.
+
+
+6 Get involved
+==============
+
+We'd love people to help out. You don't have to have much (or any) experience
+with C/C++. Check out the Development page at the FreeSCI Web site for more
+details.
+
+Enjoy!
+
+The FreeSCI Team.
+http://freesci.linuxgames.com/

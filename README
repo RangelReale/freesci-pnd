@@ -1,0 +1,535 @@
+
+
+   			* * *  W A R N I N G  * * * 
+
+
+   This is an unstable, experimental development release of FreeSCI. You will
+   most likely NOT be able to finish any games with it. If you just want to
+   play SCI games (as opposed to aid development), please use the stable
+   release instead.
+
+
+
+
+
+
+
+Thanks for downloading this development release of FreeSCI!
+
+FreeSCI is a portable interpreter for SCI games, such as the Space Quest
+series (starting with SQ3) or Leisure Suit Larry (2 and sequels); see
+below for a complete (?) listing.
+
+This release has the following limitations (plus some bugs):
+- Only SCI0, SCI01 and SCI1 games are (partially) supported
+- The SCI debug functions aren't fully supported (and probably never will be,
+  since we're using our own debug functions)
+- SCI1 palette support is preliminary and known to be broken
+- The sound subsystem is hardwired to particular drivers on compile time
+- Several pieces of game-critical functionality are known not to
+  function properly; please refer to the bug tracker at
+  https://www-plan.cs.colorado.edu/cgi-bin/bugzilla/index.cgi for details.
+
+
+This is ALPHA sofware. That means that there still are lot of bugs.
+
+
+Please refer to 'NEWS' and the 'ChangeLog' for information about changes
+in this and previous versions. Please also refer to the following files for
+platform specific instructions:
+
+README.Unix
+README.Win32
+
+
+0 Building FreeSCI
+==================
+
+Please see the platform-specific readme file applicable to your system for
+instructions on how to do this, or download a binary version.
+
+
+1 Running FreeSCI
+=================
+
+After you have a binary copy of FreeSCI (whether compiled yourself or
+downloaded), you should have a number of tools (depending on your operating
+system), and the main program (src/freesci). Usually, you will want to
+run the main program; there are five ways to run a game with FreeSCI now:
+
+a) You can enter the directory your game is contained in, and just start
+'freesci'. If no parameters are given, it will look for data files in the
+current working directory. You need all of the resource files (and any
+resource patches) for an SCI0 game in your current working directory.
+
+b) Run 'freesci' with the -d parameter to specify the path to your resource
+file directory.
+
+c) First build a configuration file, then run 'freesci' followed by one of
+the game names described in the config file. The process of creating a
+config file is outlined in section 2.
+
+d) First build a configuration file, then run 'freesci'. A menu will be
+presented containing all games that are listed in the config file.
+
+e) FreeSCI can search a directory tree for SCI games and present them in a
+menu. The directory to be searched can be specified with the -G command line
+option, or the menu_dir config file option.
+
+Please note that the default options are rather spartanic; if your machine
+is sufficiently powerful, you might want to spice up your graphics. How
+this can be done is described in section 2; we also provide a reference
+configuration file (called 'config') for high-quality graphics.
+
+
+
+1.1 The built-in debugger
+-------------------------
+
+To invoke the FreeSCI debugger, do one of these three things:
+- Start the interpreter with the -D command line option
+- press Ctrl-` (the Quake console key) and wait
+- As above, but press LShift-RShift-PadMinus instead
+
+The debugger will also activate if a script error is encountered. Once
+activated, execution of game scripts will cease until explicitly resumed.
+
+Here are two of the most simple commands:
+- 'quit'- Terminates execution of the interpreter
+- 'go'- resumes execution of the game scripts
+
+For a list of all commands supported by the debugger, type "list cmds" at
+the debugger command line. Use "man <command>" to learn about the specified
+command.
+
+
+
+2 Configuration
+===============
+
+FreeSCI will create a directory called .freesci in a platform-specific location
+(see the appropriate README file for further details).
+
+This directory stores FreeSCI data files such as saved games. If a file called
+'config' exists in this directory, it will be read and parsed by the interpreter
+after the game has been loaded; this file may ask for specifications from
+other files to be included (as with the C preprocessor) by using the notation
+
+	%include < [filename] >
+
+where [filename] is the name of the file to be included; as far as the
+configuration file reader is concerned, this is equivalent to replacing
+the entire statement with the contents of the file [filename]. FreeSCI
+automatically checks for and warns about circular inclusion. Include files
+should be stored in the same directory.
+
+A variety of configuration options may be specified. Currently, the
+configuration file may contain:
+
+- Comments preceeded by a hash '#' sign
+
+- [GAME_ID]: Commands following this line will only have an effect for
+  the game with the specified game ID. (The game ID is printed during
+  sciv startup, and is also used to create the save game directory).
+  You can use this to provide game-specific configuration options.
+
+- menu_dir: Specifies the directory that is recursively searched for SCI
+  games when the game selection screen is invoked. Should only be used in the
+  generic part of the config file.
+  Default is the '.freesci/games/' directory, where '.freesci' is in a
+  platform-specific location (see the appropriate README file for further
+  details).
+
+- console_log: Specifies a console log file which keeps track of all output
+  print with the function sciprintf().
+
+- version = x.yyy.zzz: emulate SCI version x.yyy.zzz. The version number
+  is sometimes printed on game discs, or can be found out by
+  grepping your main executable for "0.000." (for SCI0 games). It is
+  also displayed if the built-in debugger is activated in the Sierra SCI
+  engine.
+
+- pic0_dither_mode = dither | flat | dither256: (only one of those three modes).
+  dither: Draw in 16 colors, same as Sierra SCI.
+  flat: Interpolate colors (256 colors). Improves some graphics.
+  dither256: Dither in 256 colors. A compromise between dither and flat.
+
+- pic0_dither_pattern = scaled | unscaled
+  scaled: Dither in axb sized blocks, if x scale is a and y scale is b
+  unscaled: Dither in 1x1 blocks (single pixels)
+
+- pic0_brush_mode = scaled | ellipses | random-ellipses | more-random
+  Affects how semi-random brushes (used mostly for dirt and foilage) are drawn:
+  scaled: Scale every semi-random pixel to a rectangular block
+  ellipses: Scale every semi-random pixel to a filled ellipse
+  random-ellipses: As ellipses, but slightly shift ellipse offset and size
+  more-random: Add more random pixels to the whole area
+
+- pic0_line_mode = correct | fine | half
+  correct: Draw lines appropriately scaled
+  fine: Don't scale lines (thin lines, may cause problems) 
+  half: Draw them at approximately half their correct width (only noticeable
+        with scaling factors from 3 upwards)
+
+- dirty_strategy = 1 | clusters
+  The "dirty strategy" is the strategy used to collect modifications to the
+  screen content. Modifying this may affect performance on slow or networked
+  systems.
+  1: Collect everything in one dirty region
+  clusters: Cluster non-overlapping modified regions into a set of regions 
+
+- pic0_scaled = yes | no
+  Whether SCI0 background pics should be scaled (may look better) or not
+  (faster, looks more like the original games). By default, they are not scaled.
+
+- pic_buffer_size = #
+  Number of background pics to store in an LRU buffer. Increasing this value
+  will increase the amount of memory used, but may considerably speed up
+  changing back to rooms you visited not too long ago.
+
+- mouse = yes | no
+  Whether the interpreter should report to the game that it has a mouse.
+
+- resource_dir: Read the game's resource data from the specified location.
+  Must not be used in the generic part of the config file.
+
+- resource_version: Assume that the game's resource map has the specified
+  version number. The most interesting values are 3 and 5; Look at the
+  web page for specific instructions for a number of games.
+
+- view_filter = none | linear | trilinear
+  Magnification filter for 'views', i.e. moving foreground (and, in some cases,
+  non-moving background) images. 'none' means that they are translated into
+  what may look like a huge chunk of colored rectangles; 'linear' smoothes
+  those rectangles somewhat. 'trilinear' does more sensible filtering by
+  applying an almost-standard trilinear filtering algorithm.
+  This has no effect if graphics are not scaled.
+
+- pic_filter = none | linear | trilinear
+  Selects the filter to use when scaling background pictures. This only applies
+  if pic0_scale is set to 'no'.
+  Please refer to the documentation of "view_filter" for details on the various
+  settings.
+
+- cursor_filter = none | linear | trilinear
+  Filter for the mouse cursor. Note that this only applies for graphics drivers
+  which don't implement their own mouse cursor.
+  Please refer to the documentation of "view_filter" for details on the various
+  settings.
+
+- text_filter = none | linear | trilinear
+  Filter for text.
+  Please refer to the documentation of "view_filter" for details on the various
+  settings.
+
+- pic_antialiasing = none | simple
+  Performs antialiasing on background pictures. Default is 'none'.
+  + 'simple' is a trivial anti-aliasing algorithm which calculates intensity
+    according to the following matrix:
+    (1/16 1/8 1/16)
+    (1/8  1/4  1/8)
+    (1/16 1/8 1/16)
+
+- animation_delay: A speed factor for transition animations. Default is 5.
+  Set to 0 to disable transition animations.
+
+- animation_granularity: If transition animations are too slow on your system,
+  this option can be used to draw several steps of a transition animation
+  before updating the screen, resulting in a faster animation. The default is 4,
+  which causes transition behaviour identical to FreeSCI 0.3.1.
+
+- alpha_threshold: A value between 0 and 255 (defaults to 129) used by the
+  built-in crossblitter to distinguish between "opaque" and "transparent"
+  pixels. This only has any effect if pixmap filtering is enabled for any
+  resource type.
+  Smaller values will cause fewer parts of the picture to be displayed,
+  which may result e.g. in text being unreadable, while larger values may
+  cause too many pixels to be drawn, resulting in bulky images.
+  This does not have any effect when running unscaled.
+
+- module_path: A list of directories modules (gfx drivers etc.) are searched
+  in. Directories are separated with the platform's default directory
+  separator (':' on UNIX) and are searched in order of appearance.
+  Default is '/usr/local/lib:/usr/lib'.
+  --- module support is currently not available ---
+
+- reverse_stereo: Whether stereo sound output should reverse its output
+  channels
+
+- scale_x: A positive non-zero integer (default depends on the gfx driver)
+  that sets the horizontal scaling factor for whichever gfx driver you
+  use.
+
+- scale_y: Like scale_x, just for the vertical axis.
+
+- scale: Like scale_x, but affects both the horizontal and the vertical axis.
+  This scale is overridden by the others.
+
+- color_depth: The color depth (in bits per pixel) to use
+
+
+2.1 Driver-specific options
+---------------------------
+Graphics and sound drivers may have additional options specific to them.
+Driver-specific options are set by writing
+
+	<subsystem>.<driver>.<option> = <value>
+
+For example, you would use
+
+	gfx.ggi.swap_caps_ctrl = true
+
+to activate the GGI driver's feature for swapping CapsLock and the left Ctrl
+key.
+
+All driver-specific options are listed here:
+
+2.1.1 Graphics subsystem
+------------------------
+This subsystem uses the prefix 'gfx'.
+
+2.1.1.1 GGI driver:
+-------------------
+At this time, the GGI driver does not have any specific configuration options.
+
+2.1.1.2 Xlib driver:
+--------------------
+- disable_shmem = true | false
+disables shmem x11 access (meaningless if XShm support wasn't compiled in).
+- swap_ctrl_caps = true | false
+Swap Ctrl and CapsLock
+- localise_keyboard = true | false
+Try to interpret keys according to the X11 native keyboard lookup table. This
+will make keys act according to their labels on non-US keyboards, but will
+render shortcut keys (Ctrl-*, Alt-*) disabled in many cases.
+
+2.1.1.3 SDL driver:
+-------------------
+- swap_caps_ctrl = true | false
+Determines whether to swap the meanings of the CapsLock and the left Ctrl
+key (relative to a PC-style keyboard layout). The resulting layout resembles
+a Sun keyboard. Default is 'false'.
+- fullscreen = true | false
+kinda self-explanatory, eh?  :)
+
+2.1.1.4 Dreamcast driver:
+-------------------------
+- render_mode = vram | pvr
+Determines the rendering mode to use. VRAM mode uses the framebuffer
+directly, while PVR mode renders a textured quad. Default is 'vram'.
+
+- refresh_rate = 50Hz | 60Hz
+Determines whether a 50Hz or 60Hz refresh rate will be used. Default is
+60Hz.
+
+
+2.2 Graphical per-resource customisation
+----------------------------------------
+FreeSCI supports a number of ways for customising the way in which graphics
+contained in SCI games are rendered on a per-resource level, i.e. by
+specifying certain options explicitly for the resource under consideration.
+ This is expressed by specifying two things to FreeSCI (per customisation
+step): A pattern and an alteration, terminated by a semicolon (';')
+character.
+
+2.2.1 Patterns
+--------------
+  The pattern specifies which resources the alteration applies to; for
+example, it may be applied to all cels of a certain view, to all pics with
+a certain palette, etc. Patterns may look like the following:
+
+  view  ( [nrs] )( [nrs] )( [nrs] )
+  pic   ( [nrs] )( [nrs] )
+  cursor( [nrs] )
+
+...where [nrs] may be a comma-separated collection of numbers, the
+asterisk wildcard ('*') for "all possible options", or a sequence
+'n..m', which indicates that all numbers x such that  n <= x <= m
+are matched. Ranges may be used (comma-separatedly) in combination with
+individual values. For example,
+
+  view (1,2)(1..3)(*)
+
+would match all cels of loops 1,2 and 3 in view.1 and view.2.
+Trailing '(*)' may be omitted, so the above may be re-written as
+
+  view (1,2)(1..3)
+
+with identical semantics.
+  For all resources, the first parenthesised set of values describes
+the resources it will match on (view number, pic number, etc.). For
+views, the second and third parenthesised sets describe the set of
+loops and cels matched on, respectively. For pics, the second
+parenthesised set describes the default SCI0 pic palette matched on,
+where applicable.
+
+
+2.2.2 Modifications
+-------------------
+FreeSCI distinguishes between two classes of modifications: Absolute and
+relative modifications. The current sets of absolute and relative
+modifications are depicted below. The difference between these is that
+at most one absolute modification may be applied to a given resource--
+currently, the last one specified is used-- whereas all relative
+modifications are sequentially applied to it (after applying the
+absolute modification).
+
+2.2.2.1 Absolute modifications
+------------------------------
+
+(a) Setting the resource palette
+
+  [pattern] = [palette]
+
+  ...where [palette] is one of the following:
+
+	default		- The default EGA palette
+	amiga		- A palette matching the AGI Amiga palette
+	gray		- A grayscale palette
+
+  
+
+2.2.2.2 Relative modifications
+------------------------------
+
+(a) Setting resource brightness
+
+  [pattern] *= [value]
+
+  This multiplies the described resources' brightness by [value].
+  For example, a [value] of 2.0 would double their brightness.
+
+
+(b) Linearly modifying resource colour channels
+
+  [pattern] *= ([rf], [gf], [bf])
+
+  This linearly modifies the three colour channels of the matched
+  resources independently. [rf], [gf] and [bf] may be floating point
+  numbers; they modify the red, green, and blue colour channel,
+  respectively.
+
+
+2.2.3 Examples for graphical per-resource customisation
+-------------------------------------------------------
+
+  pic(1..100) *= 0.4 ;
+  # darken the first 100 pics, starting at 1
+
+  view(*)(1,3,5) = gray ;
+  # Mark loops 1,3 and 5 in all views by turning their cels gray
+
+
+2.3 Config file example:
+------------------------
+# FreeSCI config file
+
+version = 0.000.685
+pic0_dither_mode = flat
+pic_antialiasing = simple
+text_filter = trilinear
+midiout.alsaraw.card = 1
+midiout.alsaraw.device = 2
+# default to interpolated color mode and interpreter version 0.000.685
+midiout.ossopl3.patchpath = /etc/midi
+
+[Glory]
+
+pic0_dither_mode = dither256
+# Quest for Glory looks better in that mode
+pic0_brush_mode = morerandom
+pic(*)(1) *= (0.5, 0.6, .9) ;    # Darken night-time background pictures
+resource_dir = /usr/local/share/freesci/qg1
+
+[SQ3]
+
+version = 0.000.453
+# This SQ3 version is ancient
+resource_dir = /home/bob/stuff/misc/other/games/more/sierra/old/sq/3
+-----------------------
+
+
+3 Potentially supported games
+=============================
+
+The following games have been tested with FreeSCI and are known to work to some
+extent:
++ Hero's Quest / Quest for Glory 1
+  (completed by Emmanuel Jeandel with a post- 0.3.1 development snapshot)
++ Space Quest 3
+  (completed by Jason Cragg with a post- 0.3.0 development snapshot)
++ King's Quest 4
+  (completed by Bas Zoetekouw with a pre- 0.3.3 development snapshot)
++ Leisure Suit Larry 2
+  (completed by Erian McKinley with a pre- 0.3.3 development snapshot)
++ Leisure Suit Larry 3
+  (completed by Christina Mengert and Micheal Solberg with a post- 0.3.1
+   development snapshot)
++ Police Quest 2
+  (completed by Magnus Kristiansen with a post- 0.3.2a development snapshot)
+- Codename: Iceman
++ The Colonel's Bequest
+  (completed by Rune Orsval with FreeSCI 0.3.2a)
++ Conquest of Camelot
+  (completed by Erian McKinley with a pre- 0.3.3 development snapshot)
+- The Fun Seeker's Guide (from the SQ Collector's Series)
+- Hoyle's Book of Games (volume 1) (*)
+- Hoyle's Book of Games (volume 2)
+
+In theory, FreeSCI should be able to let you complete all of these.
+
+King's Quest I (SCI version) is not officially supported but was still completed
+by James Albert with a pre-0.3.3 CVS snapshot.
+
+(*) Due to differences between the way Sierra SCI and FreeSCI handle graphical
+widgets, Hoyle's Book of Games may consume a lot of memory rather quickly. We
+are hoping to resolve these issues at least partially very soon.
+
+
+4 Platform support
+==================
+
+Successful builds for the 0.3.3 release were reported for the following
+platforms (in order of appearance):
+- Alpha EV67/Debian GNU/Linux/gcc		tested
+- Alpha EV67/Debian GNU/Linux/ccc		tested extensively
+- IA32/Debian GNU/Linux/gcc			tested
+- IA32/Windows 9x and NT/Visual C++             tested extensively
+- Sparc/Sun/Solaris/gcc				tested
+- IA32/Slackware 7.1/Linux/gcc			tested
+- Alpha EV6//FreeBSD/gcc			built
+- Alpha EV6/Compaq/Tru64 5.1/cc			built
+- IA64/SuSE/Linux/gcc				built
+- IA32//FreeBSD/gcc				built
+- Alpha EV6//OpenBSD/gcc			built
+- IA32//NetBSD/gcc				built
+
+
+The following platform used to be supported, but no longer is:
+
+- ia32/DOS (no maintainer)
+	This port is orphaned. Anyone interested please contact us.
+
+
+5 Notes
+=======
+
+Please note that most of the documentation found in the doc/misc subdirectory
+is random information copied from the SCI Decoding Project homepage and
+from homepages of various of its members.
+
+Some of the source code contained in the doc/ directory, namely sd.c, sde.c,
+sdv.c, script.java and decrypt.c, was created by Carl Muckenhoupt who has
+given permission for it or parts of it to be ported and/or included in this
+distribution.
+
+Other source code, such as scr000.txt and scr_code.cpp, was copied from public
+sources without the knowledge of its authors.
+
+
+Sierra game resource files and everything they contain are property and copyrighted by Sierra On-Line (which in turn is a registerd
+trademark of Sierra On-Line, Inc.).
+
+Space Quest, Quest for Glory, King's Quest, Leisure Suit Larry, Police Quest,
+Codename: Iceman, Conquest of Camelot, and The Colonel's Bequest are registered
+trademarks of Sierra On-Line, Inc.
