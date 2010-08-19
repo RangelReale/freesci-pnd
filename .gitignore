@@ -16,4 +16,6 @@ src/tools/scimusicplayer
 config.status
 config.h*
 config.log
+setup/pandora/build/
+setup/pandora/*.pnd
 
