@@ -1,0 +1,31 @@
+
+<?xml version="1.0" encoding="UTF-8"?>
+<PXML xmlns="http://openpandora.org/namespaces/PXML" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="PXML_schema.xsd">
+
+  <application id="freesci">
+
+    <title lang="en_US">FreeSCI</title>
+ 
+    <exec command="./run.sh"/>
+ 
+    <description lang="en_US">freeSCI 0.6.4 pandora 0</description>
+
+    <icon src="./freesci.png"/>
+    <info name="FreeSCI" type="text/plain" src="README.freesci.txt"/>
+
+ 
+    <author name="Rangel Reale" website="http://www.rangelreale.com" email="rangelspam@gmail.com"/>
+ 
+    <version major="0" minor="6" release="4" build="0"/><!--This programs version-->
+    <osversion major="1" minor="0" release="0" build="0"/><!--The minimum OS version required-->
+ 
+    <categories>
+      <category name="Game">
+	<subcategory name="Emulator"></subcategory>
+      </category>
+    </categories>
+ 
+  </application>
+
+</PXML>
+
